@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>本地存储框架demo</title>
+</head>
+<body>
+<form id="inputwrapper">
+	<input class="form_control" type="text" name="username" value=""/>
+	<input class="form_control" type="text" name="password" value=""/>
+	<input class="form_control" type="text" name="address" value=""/>
+	<input class="form_control" type="text" name="age" value=""/>
+	<select class="form_control" name="hobby">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+	</select>
+	<input class="form_control" type="radio" name="sex" value="1">男
+	<input class="form_control" type="radio" name="sex" value="2">女
+</form>
+<button id="deletBtn">删除</button>
+<div style="width:100px;height:100px;background:red" id="J_trigger"></div>
+<script type="text/javascript" src="localStorage.js"></script>
+<script type="text/javascript">
+	new localSave({
+		wrapper:'#inputwrapper',
+		// selectClass:'.form_control',
+		// isunbeforeunload :true, //是否离开页面进行存储，为false时离开页面不进行存储 。 默认离开页面
+		//deletBtn:'#deletBtn',   //删除存储的按钮 默认点击事件
+		// saveBtn:'#J_trigger',	//默认离开页面进行存储 
+		// btnTrigger:'click',		//触发saveBtn的事件，原生，不加'on' ，如果用户自己定义事件，需要在自己代码结构里触发localSave_trigger(a,b)函数，a为选择器，b为事件名称
+		// isTypeIn:true,	//是否把存储写进页面
+		// isStorage:true //是否进行存储
+	})
+</script>
+</body>
+</html>
