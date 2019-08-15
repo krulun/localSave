@@ -7,7 +7,7 @@
 *----必须
 *@wrapper 外层的包裹wrapper需要是唯一的变量名（不可重复）最好是id名     ----必须
 * -----一下为非必须
-*@expire为储存时间，目前webH5还未设置时间不能像cookie一样，未完成 
+*@expire为储存时间，单位日
 *@selectClass 为所有要储存信息元素的class名，   默认wrapper里所有input 
 *@deletBtn  为删除存储所有，提交后若果先删除村粗，可以用这个btn 
 *@savaData 缓存的数据 
@@ -25,6 +25,7 @@
 (function(win){
 	function localSave(param){
 		this.param = param || {};
+		this.data = {};
 		this.wrapper =this.param.wrapper;//根据id或者class进行
 		this.param.wrapper = this.param.wrapper.substring(1);
 		this.expire =  this.param.expire ? this.param.expire :null;
@@ -38,9 +39,13 @@
 		this.init();
 	}
 	localSave.prototype = {
+		constructor:localSave,
 		init :function(){
 			var that = this;
-			this.isTypeIn ? (this.saveData ? this.writeSave() : '') : "";
+			this.data  = JSON.parse(localStorage.getItem(this.param.wrapper));
+			if(this.data.local_save_time > Date().now){
+				this.isTypeIn ? (this.saveData ? this.writeSave() : '') : "";
+			}
 			this.deletBtn ? document.querySelector(this.deletBtn).addEventListener('click',function(){
 				that.delete();
 			}) :'';
@@ -108,14 +113,15 @@
 					data[saveList[i].name] = res;
 				}
 			}
+			data['local_save_time'] = new Date().setDate(new Date().getDate()+this.expire);
 			data = JSON.stringify(data);
 			localStorage.setItem(this.param.wrapper,data);
-			if(this.expire){
-				setTimeout(function(){
-					localStorage.removeItem(this.param.wrapper);
-					window.location.href="http://www.video.com"
-				},this.expire)
-			}
+// 			if(this.expire){
+// 				setTimeout(function(){
+// 					localStorage.removeItem(this.param.wrapper);
+// 					window.location.href="http://www.video.com"
+// 				},this.expire)
+// 			}
 			return ;
 		},
 		delete: function(){
